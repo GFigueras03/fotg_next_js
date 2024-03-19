@@ -1,28 +1,30 @@
 'use client'
 import Character from "@/app/api/Character";
 import { fetchCharactersGame } from "@/app/api/data";
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { VscAccount } from "react-icons/vsc";
-import World from "../api/World";
-import {ButtonDefault, ButtonFilter} from "./Button";
+import { ButtonDefault, ButtonFilter } from "./Button";
+import Image from "next/image";
+import Link from "next/link";
 
-export default function Page() {
+export default function CharacterList() {
     const [characterName, setCharacterName] = useState("");
     const [characters, setCharacters] = useState<Character[] | any>([]);
     const [world, setWorld] = useState("");
     const [loading, setLoading] = useState(true);
+    const [characterLoaded, setCharacterLoaded] = useState("");
 
     useEffect(() => {
         async function fetchCharacters() {
-            const characters = await fetchCharactersGame();
-            setCharacters(characters);
+            const charactersFetched = await fetchCharactersGame();
+            setCharacters(charactersFetched);
             setLoading(false); // Indicate that data loading is complete
         }
         fetchCharacters();
     }, []);
 
     useEffect(() => {
-        console.log(world)
+
         const charactersLI = document.querySelectorAll('.character-li')
         if (world != "") {
             charactersLI.forEach((character: any) => {
@@ -33,7 +35,7 @@ export default function Page() {
                 }
             });
         } else {
-            charactersLI.forEach((character:any) => {
+            charactersLI.forEach((character: any) => {
                 character.style.display = "flex";
             });
         }
@@ -51,20 +53,32 @@ export default function Page() {
             if (characterName === "") {
                 return characters.map((character: any) => (
                     <li
-                        data-value={character.world}
-                        id={`${character.name} characters`}
-                        className="character-li w-20 h-20 self-center content-center bg-zinc-50 dark:bg-zinc-800 text-center flex items-center justify-center dark:text-white text-black
+                                onClick={() => setCharacterLoaded(character.name)}
+                                data-value={character.world.id}
+                                id={`${character.name} characters`}
+                                className="z-3 character-li w-20 truncate h-20 self-center content-center bg-zinc-50 dark:bg-zinc-800 text-center flex items-center justify-center dark:text-white text-black
                                 rounded transition duration-500 ease-in-out border border-transparent dark:hover:border-white dark:hover:bg-white dark:hover:text-black  hover:border-black hover:bg-black hover:text-white"
-                        key={character.name}>
-                        {character.name}
+                                key={character.name}><Link className="w-20 h-20 absolute" href={`/pages/characters/${character.id}`}>
+                        </Link>
+                        <Image className=" z-0 pointer-events-none" src={character.image} alt={""} width={100} height={100} />
+
                     </li>
                 ));
             } else {
                 return characters
                     .filter((character: any) => character.name.toLowerCase().startsWith(characterName.toLowerCase()))
                     .map((filteredCharacter: any) => (
-                        <li data-value={filteredCharacter.world} id={`${filteredCharacter.name} characters`} className=" character-li w-20 h-20 bg-zinc-50 dark:bg-zinc-800 text-center flex items-center justify-center dark:text-white text-black
-                    rounded transition duration-500 ease-in-out border border-transparent dark:hover:border-white dark:hover:bg-white dark:hover:text-black  hover:border-black hover:bg-black hover:text-white" key={filteredCharacter.name}>{filteredCharacter.name}</li>
+                        <li onClick={() => setCharacterLoaded(filteredCharacter)}
+                            data-value={filteredCharacter.world.id}
+                            id={`${filteredCharacter.name} characters`}
+                            className=" character-li w-20 h-20 bg-zinc-50 dark:bg-zinc-800 text-center flex items-center justify-center dark:text-white text-black
+                            rounded transition duration-500 ease-in-out border border-transparent dark:hover:border-white dark:hover:bg-white dark:hover:text-black  hover:border-black hover:bg-black hover:text-white"
+                            key={filteredCharacter.name}>
+                            <Image className="" src={filteredCharacter.image} alt={""} width={100} height={100} />
+
+                            <Link href={`/pages/characters/${filteredCharacter.id}`}>
+                                {/* {filteredCharacter.name} */}
+                            </Link></li>
                     ));
             }
         }
@@ -78,8 +92,8 @@ export default function Page() {
     }
 
     return (
-        <div className="w-9/12 h-screen flex flex-col items-center mt-12 justify-start gap-10">
-            <input className="w-1/4 h-8 rounded bg-zinc-800 border text-zinc-400 pl-2 border-zinc-400 outline-none " type="text" onChange={handleChange} />
+        <div className="w-9/12 h-full flex flex-col items-center mt-12 justify-start gap-10">
+            <input className="w-1/4 h-8 rounded bg-zinc-100 border-white  dark:bg-zinc-800 border dark:text-zinc-400 pl-2 dark:border-zinc-400 outline-none " type="text" onChange={handleChange} />
             <div className="flex flex-row gap-3">
                 <ButtonDefault currentWorld={world} setWorld={setWorld} mundo={""} />
                 <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"ASGARD"} />
@@ -92,7 +106,7 @@ export default function Page() {
                 <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"HELHEIM"} />
                 <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"GINNUNGAGAP"} />
             </div>
-            <ul className="w-fit flex flex-row gap-3 flex-wrap items-center justify-center ">
+            <ul className="w-fit flex flex-row gap-3 flex-wrap items-center justify-center overflow-auto ">
 
                 {loading ? skeleton() : filterCharacters()}
             </ul>

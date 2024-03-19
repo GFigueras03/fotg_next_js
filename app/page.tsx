@@ -12,6 +12,6 @@ export default function Home() {
 
 function Page(){
   return (
-    <h1 className="text-center text-4xl text-white font-bold flex ">WELLCOME TO FALL OF THE GODS</h1>
+    <h1 className="text-center text-4xl text-zinc-900 dark:text-zinc-50 font-bold flex ">WELLCOME TO FALL OF THE GODS</h1>
   )
 }
