@@ -1,5 +1,3 @@
-import CharacterListSkeleton from "@/app/components/CharacterListSkeleton";
-
 export default function Loading() {
 
 

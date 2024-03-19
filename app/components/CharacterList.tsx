@@ -4,6 +4,7 @@ import { fetchCharactersGame } from "@/app/api/data";
 import { useEffect, useState } from "react";
 import { VscAccount } from "react-icons/vsc";
 import World from "../api/World";
+import {ButtonDefault, ButtonFilter} from "./Button";
 
 export default function Page() {
     const [characterName, setCharacterName] = useState("");
@@ -21,8 +22,8 @@ export default function Page() {
     }, []);
 
     useEffect(() => {
+        console.log(world)
         const charactersLI = document.querySelectorAll('.character-li')
-        console.log(characters[0]?.world)
         if (world != "") {
             charactersLI.forEach((character: any) => {
                 if (character.getAttribute('data-value')?.toLocaleLowerCase() !== world.toLowerCase()) {
@@ -80,33 +81,16 @@ export default function Page() {
         <div className="w-9/12 h-screen flex flex-col items-center mt-12 justify-start gap-10">
             <input className="w-1/4 h-8 rounded bg-zinc-800 border text-zinc-400 pl-2 border-zinc-400 outline-none " type="text" onChange={handleChange} />
             <div className="flex flex-row gap-3">
-                <button onClick={() => setWorld("")} className="w-12 h-10 dark:text-zinc-200  bold rounded border border-transparent transition duration-500 ease-in-out hover:dark:border-zinc-300 hover:dark:bg-white hover:dark:text-zinc-900 dark:bg-zinc-800 bg-zinc-50 text-black flex items-center justify-center hover:text-black overflow-hidden"><VscAccount width={"3em"} className="hover:text-black text-white text-2xl transition duration-500 ease-in-out w-full h-full p-2" style={world.toLowerCase() === "" ? { backgroundColor: "white", color: "black" } : {}}/></button>
-                <button onClick={() => setWorld("asgard")} className="w-32 h-10 dark:text-zinc-200  bold rounded border border-transparent transition duration-500 ease-in-out hover:dark:border-zinc-300 hover:dark:bg-white hover:dark:text-zinc-900 dark:bg-zinc-800 bg-zinc-50 text-black"
-                    style={world.toLowerCase() === "asgard" ? { backgroundColor: "white", color: "black" } : {}}>
-                    ASGARD</button>
-                <button onClick={() => setWorld("alfheim")} className="w-32 h-10 dark:text-zinc-200  bold rounded border border-transparent transition duration-500 ease-in-out hover:dark:border-zinc-300 hover:dark:bg-white hover:dark:text-zinc-900 dark:bg-zinc-800 bg-zinc-50 text-black"
-                    style={world.toLowerCase() === "alfheim" ? { backgroundColor: "white", color: "black" } : {}}>
-                    ALFHEIM</button>
-                <button onClick={() => setWorld("vanaheim")} className="w-32 h-10 dark:text-zinc-200  bold rounded border border-transparent transition duration-500 ease-in-out hover:dark:border-zinc-300 hover:dark:bg-white hover:dark:text-zinc-900 dark:bg-zinc-800 bg-zinc-50 text-black"
-                    style={world.toLowerCase() === "vanaheim" ? { backgroundColor: "white", color: "black" } : {}}>
-                    VANAHEIM</button>
-                <button onClick={() => setWorld("svartalfheim")} className="w-32 h-10 dark:text-zinc-200  bold rounded border border-transparent transition duration-500 ease-in-out hover:dark:border-zinc-300 hover:dark:bg-white hover:dark:text-zinc-900 dark:bg-zinc-800 bg-zinc-50 text-black"
-                    style={world.toLowerCase() === "svartalfheim" ? { backgroundColor: "white", color: "black" } : {}}>
-                    SVARTALFHEIM</button>
-                <button onClick={() => setWorld("midgard")} className="w-32 h-10 dark:text-zinc-200  bold rounded border border-transparent transition duration-500 ease-in-out hover:dark:border-zinc-300 hover:dark:bg-white hover:dark:text-zinc-900 dark:bg-zinc-800 bg-zinc-50 text-black"
-                    style={world.toLowerCase() === "midgard" ? { backgroundColor: "white", color: "black" } : {}}>
-                    MIDGARD</button>
-                <button onClick={() => setWorld("jotunheim")} className="w-32 h-10 dark:text-zinc-200  bold rounded border border-transparent transition duration-500 ease-in-out hover:dark:border-zinc-300 hover:dark:bg-white hover:dark:text-zinc-900 dark:bg-zinc-800 bg-zinc-50 text-black"
-                    style={world.toLowerCase() === "jotunheim" ? { backgroundColor: "white", color: "black" } : {}}>
-                    JÖTUNHEIM</button>
-                <button onClick={() => setWorld("muspelheim")} className="w-32 h-10 dark:text-zinc-200  bold rounded border border-transparent transition duration-500 ease-in-out hover:dark:border-zinc-300 hover:dark:bg-white hover:dark:text-zinc-900 dark:bg-zinc-800 bg-zinc-50 text-black"
-                    style={world.toLowerCase() === "muspelheim" ? { backgroundColor: "white", color: "black" } : {}}>MUSPELHEIM</button>
-                <button onClick={() => setWorld("helheim")} className="w-32 h-10 dark:text-zinc-200  bold rounded border border-transparent transition duration-500 ease-in-out hover:dark:border-zinc-300 hover:dark:bg-white hover:dark:text-zinc-900 dark:bg-zinc-800 bg-zinc-50 text-black"
-                    style={world.toLowerCase() === "helheim" ? { backgroundColor: "white", color: "black" } : {}}>
-                    HELHEIM</button>
-                <button onClick={() => setWorld("ginnungagap")} className="w-32 h-10 dark:text-zinc-200  bold rounded border border-transparent transition duration-500 ease-in-out hover:dark:border-zinc-300 hover:dark:bg-white hover:dark:text-zinc-900 dark:bg-zinc-800 bg-zinc-50 text-black"
-                    style={world.toLowerCase() === "ginnungagap" ? { backgroundColor: "white", color: "black" } : {}}>
-                    GINNUNGAGAP</button>
+                <ButtonDefault currentWorld={world} setWorld={setWorld} mundo={""} />
+                <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"ASGARD"} />
+                <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"ALFHEIM"} />
+                <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"VANAHEIM"} />
+                <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"SVARTALFHEIM"} />
+                <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"MIDGARD"} />
+                <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"JOTUNHEIM"} />
+                <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"MUSPELHEIM"} />
+                <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"HELHEIM"} />
+                <ButtonFilter currentWorld={world} setWorld={setWorld} mundo={"GINNUNGAGAP"} />
             </div>
             <ul className="w-fit flex flex-row gap-3 flex-wrap items-center justify-center ">
 

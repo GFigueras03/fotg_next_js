@@ -6,7 +6,7 @@ export default class Character {
     id: string;
     name: string;
     description: string;
-    world: World | null;
+    world?: World | null;
 
     constructor(id: string, name: string, description: string, world: World | null) {
         this.id = id;
